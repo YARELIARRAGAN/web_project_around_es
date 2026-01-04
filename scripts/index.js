@@ -51,13 +51,15 @@ function closeModal(modal) {
 }
 
 //Eventos para los botones de editar perfil y cerrar modal
-buttonEditProfile.addEventListener("click", function () {
-    handleOpenEditModal();
-});
+buttonEditProfile.addEventListener("click", handleOpenEditModal);
+buttonEditProfile.removeEventListener('click', handleOpenEditModal);
 
-closeModalEditProfile.addEventListener("click", function () {
+function closeModalProfile() {
     closeModal(modalEditProfile);
-});
+}
+
+closeModalEditProfile.addEventListener("click", closeModalProfile);
+closeModalEditProfile.removeEventListener('click', closeModalProfile);
 
 //Funciones para rellenar el modal con la info del perfil
 function fillProfileForm() {
@@ -262,9 +264,6 @@ document.querySelectorAll('.popup__form').forEach(form => {
 });
 
 //Funcion para resetear los formularios
-function resetFormValidation(formElement) {
-   const formElement = document.querySelector()
-}
 
 //funcion para cerrar modal con click
 function closePopupOnClickOverlay(popup) {
