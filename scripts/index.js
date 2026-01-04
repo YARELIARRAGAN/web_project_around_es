@@ -106,6 +106,7 @@ function zoomInImage (text, link) {
     //Usar los elementos del modal y darles valor
     popUpParagraph.textContent = text;
     popUpImage.src = link;
+    popUpImage.alt = text;
   
     //detector el boton cierre del modal
 
@@ -190,5 +191,101 @@ closeModalAddCard.addEventListener("click", function () {
 //evento submit del formulario 
  formElementAddCard.addEventListener('submit', handleCardFormSubmit);
 
+//VALIDACION DE FORMULARIOS
 
- 
+//Seleccionar elementos formulario
+const inputs = document.querySelectorAll('.popup__input');
+const popup = document.querySelector('.popup');
+const popups = document.querySelectorAll('.popup');
+const buttonElement = document.querySelector('.popup__button')
+//Funcion mostrar error
+function showInputError(element, errorMessage) {
+    const errorElement = document.querySelector(`.${element.id}-input-error`);
+    errorElement.textContent = errorMessage;
+    errorElement.classList.add('popup__input-error-active');
+    element.classList.add('popup__input-red');
+}
+//funcion Eliminar error 
+function hideInputError(element) {
+    const errorElement = document.querySelector(`.${element.id}-input-error`);
+    const idElement = document.querySelector(`${element.id}`)
+    errorElement.classList.remove('popup__input-error-active');
+    errorElement.textContent = '';
+    element.classList.remove('popup__input-red');
+}
+
+ //Bucle para iterar sobre todos los inputs y validad cada uno de ellos
+inputs.forEach((input) => {
+    input.addEventListener('input', () => {
+      if(!input.validity.valid) {
+        showInputError(input, input.validationMessage);
+      } else {
+        hideInputError(input);
+      }
+    });
+});
+//Habilidad o deshabilitar el boton de enviar
+
+//Funcion para verificar validez
+function checkFormValidity(formElement) {
+    const inputList = formElement.querySelectorAll('.popup__input');
+    const submitButton = formElement.querySelector('.popup__button');
+    
+    // Usar every() para verificar que TODOS sean válidos
+    const allInputsValid = Array.from(inputList).every(input => input.validity.valid);
+    
+    submitButton.disabled = !allInputsValid;
+}
+
+// Configurar validación
+function setupFormValidation(formElement) {
+    const inputList = formElement.querySelectorAll('.popup__input');
+    
+    // Inicializar como deshabilitado
+    const submitButton = formElement.querySelector('.popup__button');
+    submitButton.disabled = true;
+    
+    // Agregar listeners
+    inputList.forEach(input => {
+        input.addEventListener('input', () => {
+            checkFormValidity(formElement);
+        });
+    });
+    
+    // Verificar estado inicial
+    checkFormValidity(formElement);
+}
+
+// Aplicar a todos los formularios
+document.querySelectorAll('.popup__form').forEach(form => {
+    setupFormValidation(form);
+});
+
+//Funcion para resetear los formularios
+function resetFormValidation(formElement) {
+   const formElement = document.querySelector()
+}
+
+//funcion para cerrar modal con click
+function closePopupOnClickOverlay(popup) {
+    popup.addEventListener('click', function(event) {
+        if(event.target === popup) {
+           closeModal(popup)
+        }
+    })
+}
+//Bucle para iterar sobre los modales y aplicar la funcion de cerrar con click 
+popups.forEach(popup => {
+    closePopupOnClickOverlay(popup);
+})
+//funcion para cerrar el modal con la tecla escape
+function closePopuponEscape() {
+    document.addEventListener('keydown', function(event) {
+        const modalopen = document.querySelector('.popup_is-opened')
+         if(event.key === 'Escape' && modalopen) {
+            closeModal(modalopen);
+        }
+    });
+}
+closePopuponEscape();
+
